@@ -23,7 +23,7 @@ class Classification_Manager(SimpleTrainer):
                             100 * self.model.best_stats.val.recall, 100 * self.model.best_stats.val.f1score,
                             self.model.best_stats.val.loss)
 
-        def validate_epoch(self, valid_set, valid_loader, early_Stopping, epoch, global_bar):
+        def validate_epoch(self, valid_set, valid_loader, early_stopping, epoch, global_bar):
             if valid_set is not None and valid_loader is not None:
                 # Set model in validation mode
                 self.model.net.eval()
@@ -32,9 +32,8 @@ class Classification_Manager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                            self.stats.val.acc, self.stats.val.f1score):
                         self.stop = True
 
                 # Set model in training mode
