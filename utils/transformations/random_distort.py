@@ -42,6 +42,8 @@ class Random_distort(object):
 
         if self.cf.random_dist:
             if not isinstance(img, Image.Image):
+                if img.dtype != 'uint8':
+                  img = img.astype('uint8')
                 img = Image.fromarray(img)
             img = brightness(img, brightness_delta)
             if random.random() < 0.5:
