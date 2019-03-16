@@ -33,9 +33,8 @@ class SemanticSegmentation_Manager(SimpleTrainer):
 
                 # Early stopping checking
                 if self.cf.early_stopping:
-                    early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
-                                         self.stats.val.acc)
-                    if early_Stopping.stop == True:
+                    if early_Stopping.check(self.stats.train.loss, self.stats.val.loss, self.stats.val.mIoU,
+                                         self.stats.val.acc):
                         self.stop = True
 
                 # Set model in training mode
